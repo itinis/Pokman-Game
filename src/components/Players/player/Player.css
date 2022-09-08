@@ -1,0 +1,29 @@
+.player {
+    display: grid;
+    grid-row-gap: .4rem;
+    width: 100%;
+    max-width: 22rem;
+    margin-inline: auto;
+    text-align: left;
+}
+
+.player .type {
+    text-align: center;
+}
+
+.player img {
+    background-color: whitesmoke;
+}
+
+.player.leftPlayer .wrap-pokemon {
+    margin-left: auto;
+    text-align: right;
+}
+
+.player .name {
+    margin-block: 0;
+}
+
+.player.rightPlayer .wrap-progress-bar {
+    text-align: right;
+}

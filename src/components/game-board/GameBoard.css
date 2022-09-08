@@ -1,0 +1,13 @@
+.gameBoard {
+    padding: 2rem;
+}
+
+.gameBoard .title {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: 100;
+}
+
+.modal-content #message {
+    text-align: center;
+}
