@@ -29,7 +29,6 @@ export default function GameBoard({ }: Props) {
     const handleRandomNewState = () => setToggleRandomNewState(!toggleRandomNewState);
 
     useEffect(() => {
-        debugger
         fetchItemData()
     }, []);
 
@@ -46,7 +45,7 @@ export default function GameBoard({ }: Props) {
                         sprite: sprites.front_default
                     }))
             )).then(data => {
-                debugger
+                
                 pokemons = data;
                 if (pokemons)
                     setRandomPlayers();
@@ -71,7 +70,6 @@ export default function GameBoard({ }: Props) {
     }
 
     const getRandomPlayer = (): PlayerObj => {
-        debugger
         let randomIndex = Math.floor(Math.random() * pokemons.length);
         return { ...pokemons[randomIndex], lastDiceRoll: 1, points: 0, history: [] };
     };
@@ -86,7 +84,6 @@ export default function GameBoard({ }: Props) {
 
     const updatePoints = (dice1: number, dice2: number, playerWithExtra: number = 0,
         isInitial: boolean = false) => {
-        debugger
         if (players != null) {
             let points1 = 0;
             let points2 = 0;
@@ -115,7 +112,6 @@ export default function GameBoard({ }: Props) {
     }
 
     const newPokemonSelected = () => {
-        debugger
         handleClose();
         setPlayers({ player: { ...defaultPlayer }, opponent: { ...defaultPlayer } });
         fetchItemData();
