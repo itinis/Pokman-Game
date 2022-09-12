@@ -16,20 +16,11 @@ export type PlayerObj = {
 }
 
 export default function GameBoard({ }: Props) {
+    var pokemons = [{ id: 0, name: '', sprite: '' }];
 
-    const pokemons = [
-        { id: 4, name: "Charmander" },
-        { id: 7, name: "Squirtle" },
-        { id: 11, name: "Metapod" },
-        { id: 12, name: "Butterfree" },
-        { id: 25, name: "Pikachu" },
-        { id: 39, name: "Jigglypuff" },
-        { id: 94, name: "Gengar" },
-        { id: 133, name: "Eevee" }
-    ];
-
+    const [pokemons1, setPokemondata] = useState([{ id: 0, name: '', sprite: '' }]);
     const defaultPlayer: PlayerObj = { id: 0, name: '', lastDiceRoll: 1, points: 0, history: [] };
-    const [players, setPlayers] = useState({player: defaultPlayer, opponent: defaultPlayer});
+    const [players, setPlayers] = useState({ player: defaultPlayer, opponent: defaultPlayer });
     const [showModal, setShowModal] = useState(false);
     const [toggleRandomNewState, setToggleRandomNewState] = useState(true);
     const [isWin, setIsWin] = useState(false);
@@ -38,9 +29,32 @@ export default function GameBoard({ }: Props) {
     const handleRandomNewState = () => setToggleRandomNewState(!toggleRandomNewState);
 
     useEffect(() => {
-        setRandomPlayers();
+        debugger
+        fetchItemData()
     }, []);
 
+    const fetchItemData = async () => {
+
+        try {
+            Promise.all(Array.from({ length: 20 }, (_, i) => // change number to 151
+                fetch(`https://pokeapi.co/api/v2/pokemon-form/${i + 1}`)
+                    .then(res =>
+                        res.json())
+                    .then(({ name, sprites }) => ({
+                        id: i + 1,
+                        name,
+                        sprite: sprites.front_default
+                    }))
+            )).then(data => {
+                debugger
+                pokemons = data;
+                if (pokemons)
+                    setRandomPlayers();
+            });
+        } catch (error) {
+            console.log('Failed to fetch from api', error);
+        }
+    };
     const updatePlayers = (player: PlayerObj, opponent: PlayerObj) => {
         setPlayers({
             player: { ...player }, opponent: { ...opponent }
@@ -50,13 +64,14 @@ export default function GameBoard({ }: Props) {
     const setRandomPlayers = () => {
         let first = getRandomPlayer();
         let second = getRandomPlayer();
-        while(second.id == first.id) {
+        while (second.id == first.id) {
             second = getRandomPlayer();
         }
         updatePlayers(first, second);
     }
 
     const getRandomPlayer = (): PlayerObj => {
+        debugger
         let randomIndex = Math.floor(Math.random() * pokemons.length);
         return { ...pokemons[randomIndex], lastDiceRoll: 1, points: 0, history: [] };
     };
@@ -71,6 +86,7 @@ export default function GameBoard({ }: Props) {
 
     const updatePoints = (dice1: number, dice2: number, playerWithExtra: number = 0,
         isInitial: boolean = false) => {
+        debugger
         if (players != null) {
             let points1 = 0;
             let points2 = 0;
@@ -99,10 +115,12 @@ export default function GameBoard({ }: Props) {
     }
 
     const newPokemonSelected = () => {
+        debugger
         handleClose();
-        setPlayers({ player: { ...defaultPlayer}, opponent: {...defaultPlayer} });
-        setRandomPlayers();
+        setPlayers({ player: { ...defaultPlayer }, opponent: { ...defaultPlayer } });
+        fetchItemData();
         handleRandomNewState();
+
     }
 
     const theSamePokemonSelected = () => {
