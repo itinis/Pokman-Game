@@ -17,8 +17,6 @@ export type PlayerObj = {
 
 export default function GameBoard({ }: Props) {
     var pokemons = [{ id: 0, name: '', sprite: '' }];
-
-    const [pokemons1, setPokemondata] = useState([{ id: 0, name: '', sprite: '' }]);
     const defaultPlayer: PlayerObj = { id: 0, name: '', lastDiceRoll: 1, points: 0, history: [] };
     const [players, setPlayers] = useState({ player: defaultPlayer, opponent: defaultPlayer });
     const [showModal, setShowModal] = useState(false);
