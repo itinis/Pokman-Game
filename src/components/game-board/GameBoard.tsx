@@ -45,7 +45,7 @@ export default function GameBoard({ }: Props) {
             )).then(data => {
                 
                 pokemons = data;
-                if (pokemons)
+               if (pokemons.length>1 )
                     setRandomPlayers();
             });
         } catch (error) {
